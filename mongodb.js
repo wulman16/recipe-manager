@@ -13,24 +13,36 @@ MongoClient.connect(
 
     const db = client.db(databaseName);
 
-    const updatePromise = db.collection(`ingredients`).updateMany(
-      {
-        isVegan: false
-      },
-      {
-        $set: {
-          isVegan: true
-        }
-      }
-    );
+    const deletePromise = db.collection(`users`).deleteMany({
+      age: 23
+    });
 
-    updatePromise
+    deletePromise
       .then(result => {
         console.log(result);
       })
       .catch(error => {
         console.log(error);
       });
+
+    // const updatePromise = db.collection(`ingredients`).updateMany(
+    //   {
+    //     isVegan: false
+    //   },
+    //   {
+    //     $set: {
+    //       isVegan: true
+    //     }
+    //   }
+    // );
+
+    // updatePromise
+    //   .then(result => {
+    //     console.log(result);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
 
     // const updatePromise = db.collection(`users`).updateOne(
     //   {
