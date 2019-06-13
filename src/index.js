@@ -9,18 +9,18 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// app.post(`/users`, (req, res) => {
-//   const user = new User(req.body);
+app.post(`/users`, (req, res) => {
+  const user = new User(req.body);
 
-//   user
-//     .save()
-//     .then(() => {
-//       res.send(user);
-//     })
-//     .catch(e => {
-//       res.status(400).send(e);
-//     });
-// });
+  user
+    .save()
+    .then(() => {
+      res.status(201).send(user);
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+});
 
 app.post(`/ingredients`, (req, res) => {
   const ing = new Ingredient(req.body);
@@ -28,7 +28,7 @@ app.post(`/ingredients`, (req, res) => {
   ing
     .save()
     .then(() => {
-      res.send(ing);
+      res.status(201).send(ing);
     })
     .catch(e => {
       res.status(400).send(e);
