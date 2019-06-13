@@ -9,13 +9,26 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.post(`/users`, (req, res) => {
-  const user = new User(req.body);
+// app.post(`/users`, (req, res) => {
+//   const user = new User(req.body);
 
-  user
+//   user
+//     .save()
+//     .then(() => {
+//       res.send(user);
+//     })
+//     .catch(e => {
+//       res.status(400).send(e);
+//     });
+// });
+
+app.post(`/ingredients`, (req, res) => {
+  const ing = new Ingredient(req.body);
+
+  ing
     .save()
     .then(() => {
-      res.send(user);
+      res.send(ing);
     })
     .catch(e => {
       res.status(400).send(e);
