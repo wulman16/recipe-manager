@@ -36,51 +36,56 @@ const User = mongoose.model(`User`, {
     type: String,
     required: true,
     trim: true,
+    minLength: 7,
     validate(value) {
-      if (value.length < 7) {
-        throw new Error(`Password must be at least 7 characters!`);
-      } else if (validator.contains(value, `password`)) {
+      if (validator.contains(value, `password`)) {
         throw new Error(`Password cannot contain the word "password"!`);
       }
     }
   }
 });
 
-const me = new User({
-  name: `   Will `,
-  email: `qwertyuiop161661@yahoo.com   `
-});
+// const me = new User({
+//   name: `   Will `,
+//   email: `qwertyuiop161661@yahoo.com   `,
+//   password: `gjkrhgpasswordg`
+// });
 
-me.save()
-  .then(() => {
-    console.log(me);
-  })
-  .catch(error => {
-    console.log(`Error: ${error}`);
-  });
+// me.save()
+//   .then(() => {
+//     console.log(me);
+//   })
+//   .catch(error => {
+//     console.log(`Error: ${error}`);
+//   });
 
 const Recipe = mongoose.model(`Recipe`, {
   title: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   time: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   instructions: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   }
 });
 
 const Ingredient = mongoose.model(`Ingredient`, {
   name: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   amount: {
-    type: String
+    type: String,
+    trim: true
   },
   isVegan: {
     type: Boolean,
@@ -88,17 +93,17 @@ const Ingredient = mongoose.model(`Ingredient`, {
   }
 });
 
-// const almondButterToast = new Recipe({
-//   title: `Almond Butter Toast`,
-//   time: 5,
-//   instructions: `Toast bread. Spread almond butter on one side. Enjoy!`
-// });
+const almondButterToast = new Recipe({
+  title: `Almond Butter Toast`,
+  time: 5,
+  instructions: `Toast bread. Spread almond butter on one side. Enjoy!`
+});
 
-// almondButterToast
-//   .save()
-//   .then(() => {
-//     console.log(almondButterToast);
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   });
+almondButterToast
+  .save()
+  .then(() => {
+    console.log(almondButterToast);
+  })
+  .catch(error => {
+    console.log(error);
+  });
