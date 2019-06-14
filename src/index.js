@@ -9,118 +9,99 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.post(`/users`, (req, res) => {
+app.post(`/users`, async (req, res) => {
   const user = new User(req.body);
 
-  user
-    .save()
-    .then(() => {
-      res.status(201).send(user);
-    })
-    .catch(e => {
-      res.status(400).send(e);
-    });
+  try {
+    await user.save();
+    res.status(201).send(user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
-app.get(`/users`, (req, res) => {
-  User.find({})
-    .then(users => {
-      res.send(users);
-    })
-    .catch(e => {
-      res.status(500).send();
-    });
+app.get(`/users`, async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
-app.get("/users/:id", (req, res) => {
+app.get("/users/:id", async (req, res) => {
   const _id = req.params.id;
-  User.findById(_id)
-    .then(user => {
-      if (!user) {
-        return res.status(404).send();
-      }
-
-      res.send(user);
-    })
-    .catch(e => {
-      res.status(500).send();
-    });
+  try {
+    const user = await User.findById(_id);
+    if (!user) return res.status(404).send();
+    res.send(user);
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
-app.post(`/ingredients`, (req, res) => {
+app.post(`/ingredients`, async (req, res) => {
   const ing = new Ingredient(req.body);
 
-  ing
-    .save()
-    .then(() => {
-      res.status(201).send(ing);
-    })
-    .catch(e => {
-      res.status(400).send(e);
-    });
+  try {
+    await ing.save();
+    res.status(201).send(ing);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
-app.get(`/ingredients`, (req, res) => {
-  Ingredient.find({})
-    .then(ings => {
-      res.send(ings);
-    })
-    .catch(e => {
-      res.status(500).send();
-    });
+app.get(`/ingredients`, async (req, res) => {
+  try {
+    const ings = await Ingredient.find({});
+    res.send(ings);
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
-app.get("/ingredients/:id", (req, res) => {
+app.get("/ingredients/:id", async (req, res) => {
   const _id = req.params.id;
-  Ingredient.findById(_id)
-    .then(ing => {
-      if (!ing) {
-        return res.status(404).send();
-      }
 
-      res.send(ing);
-    })
-    .catch(e => {
-      res.status(500).send();
-    });
+  try {
+    const ing = await Ingredient.findById(_id);
+    if (!ing) return res.status(404).send();
+    res.send(ing);
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
-app.post(`/recipes`, (req, res) => {
-  const recipe = new Recipe(req.body);
+app.post(`/recipes`, async (req, res) => {
+  const recipe = await new Recipe(req.body);
 
-  recipe
-    .save()
-    .then(() => {
-      res.status(201).send(recipe);
-    })
-    .catch(e => {
-      res.status(400).send(e);
-    });
+  try {
+    await recipe.save();
+    res.status(201).send(recipe);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
-app.get(`/recipes`, (req, res) => {
-  Recipe.find({})
-    .then(recipes => {
-      res.send(recipes);
-    })
-    .catch(e => {
-      res.status(500).send();
-    });
+app.get(`/recipes`, async (req, res) => {
+  try {
+    const recipes = await Recipe.find({});
+    res.send(recipes);
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
-app.get("/recipes/:id", (req, res) => {
+app.get("/recipes/:id", async (req, res) => {
   const _id = req.params.id;
-  Recipe.findById(_id)
-    .then(recipe => {
-      if (!recipe) {
-        return res.status(404).send();
-      }
 
-      res.send(recipe);
-    })
-    .catch(e => {
-      res.status(500).send();
-    });
+  try {
+    const recipe = await Recipe.findById(_id);
+    if (!recipe) return res.status(404).send();
+    res.send(recipe);
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
 app.listen(port, () => {
