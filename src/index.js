@@ -42,12 +42,17 @@ app.get("/users/:id", async (req, res) => {
 });
 
 app.patch(`/users/:id`, async (req, res) => {
-  const _id = req.params.id;
   const updates = Object.keys(req.body);
   const allowedUpdates = [`name`, `email`, `password`, `age`];
   const isValidOperation = updates.every(update => {
     return allowedUpdates.includes(update);
   });
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: `Invalid updates!` });
+  }
+
+  const _id = req.params.id;
 
   try {
     const user = await User.findByIdAndUpdate(_id, req.body, {
@@ -82,7 +87,7 @@ app.get(`/ingredients`, async (req, res) => {
   }
 });
 
-app.get("/ingredients/:id", async (req, res) => {
+app.get(`/ingredients/:id`, async (req, res) => {
   const _id = req.params.id;
 
   try {
@@ -91,6 +96,32 @@ app.get("/ingredients/:id", async (req, res) => {
     res.send(ing);
   } catch (e) {
     res.status(500).send();
+  }
+});
+
+app.patch(`/ingredients/:id`, async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [`name`, `amount`, `isVegan`];
+  const isValidOperation = updates.every(update => {
+    return allowedUpdates.includes(update);
+  });
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: `Invalid updates!` });
+  }
+
+  const _id = req.params.id;
+
+  try {
+    const ing = await Ingredient.findByIdAndUpdate(_id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!ing) return res.status(404).send();
+    res.send(ing);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 
@@ -123,6 +154,32 @@ app.get("/recipes/:id", async (req, res) => {
     res.send(recipe);
   } catch (e) {
     res.status(500).send();
+  }
+});
+
+app.patch(`/recipes/:id`, async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [`title`, `time`, `instructions`];
+  const isValidOperation = updates.every(update => {
+    return allowedUpdates.includes(update);
+  });
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: `Invalid updates!` });
+  }
+
+  const _id = req.params.id;
+
+  try {
+    const recipe = await Recipe.findByIdAndUpdate(_id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!recipe) return res.status(404).send();
+    res.send(recipe);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 
