@@ -67,6 +67,18 @@ app.patch(`/users/:id`, async (req, res) => {
   }
 });
 
+app.delete(`/users/:id`, async (req, res) => {
+  const _id = req.params.id;
+
+  try {
+    const user = await User.findByIdAndDelete(_id);
+    if (!user) return res.status(404).send();
+    res.send(user);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
 app.post(`/ingredients`, async (req, res) => {
   const ing = new Ingredient(req.body);
 
@@ -125,6 +137,18 @@ app.patch(`/ingredients/:id`, async (req, res) => {
   }
 });
 
+app.delete(`/ingredients/:id`, async (req, res) => {
+  const _id = req.params.id;
+
+  try {
+    const ing = await Ingredient.findByIdAndDelete(_id);
+    if (!ing) return res.status(404).send();
+    res.send(ing);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
 app.post(`/recipes`, async (req, res) => {
   const recipe = await new Recipe(req.body);
 
@@ -180,6 +204,18 @@ app.patch(`/recipes/:id`, async (req, res) => {
     res.send(recipe);
   } catch (e) {
     res.status(400).send(e);
+  }
+});
+
+app.delete(`/recipes/:id`, async (req, res) => {
+  const _id = req.params.id;
+
+  try {
+    const recipe = await Recipe.findByIdAndDelete(_id);
+    if (!recipe) return res.status(404).send();
+    res.send(recipe);
+  } catch (e) {
+    res.status(500).send();
   }
 });
 
