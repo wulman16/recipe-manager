@@ -48,10 +48,10 @@ router.patch(`/recipes/:id`, async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const recipe = await Recipe.findByIdAndUpdate(_id, req.body, {
-      new: true,
-      runValidators: true
-    });
+    const recipe = await Recipe.findById(_id);
+
+    updates.forEach(update => (recipe[update] = req.body[update]));
+    await recipe.save();
 
     if (!recipe) return res.status(404).send();
     res.send(recipe);

@@ -48,10 +48,10 @@ router.patch(`/ingredients/:id`, async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const ing = await Ingredient.findByIdAndUpdate(_id, req.body, {
-      new: true,
-      runValidators: true
-    });
+    const ing = await Ingredient.findById(_id);
+
+    updates.forEach(update => (ing[update] = req.body[update]));
+    await ing.save();
 
     if (!ing) return res.status(404).send();
     res.send(ing);
