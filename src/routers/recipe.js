@@ -65,11 +65,11 @@ router.patch(`/recipes/:id`, auth, async (req, res) => {
   }
 });
 
-router.delete(`/recipes/:id`, async (req, res) => {
+router.delete(`/recipes/:id`, auth, async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const recipe = await Recipe.findByIdAndDelete(_id);
+    const recipe = await Recipe.findOneAndDelete({ _id, owner: req.user._id });
     if (!recipe) return res.status(404).send();
     res.send(recipe);
   } catch (e) {
