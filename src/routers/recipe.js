@@ -38,7 +38,7 @@ router.get("/recipes/:id", auth, async (req, res) => {
   }
 });
 
-router.patch(`/recipes/:id`, async (req, res) => {
+router.patch(`/recipes/:id`, auth, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = [`title`, `time`, `instructions`];
   const isValidOperation = updates.every(update => {
@@ -52,12 +52,13 @@ router.patch(`/recipes/:id`, async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const recipe = await Recipe.findById(_id);
+    const recipe = await Recipe.findOne({ _id, owner: req.user._id });
+
+    if (!recipe) return res.status(404).send();
 
     updates.forEach(update => (recipe[update] = req.body[update]));
     await recipe.save();
 
-    if (!recipe) return res.status(404).send();
     res.send(recipe);
   } catch (e) {
     res.status(400).send(e);
