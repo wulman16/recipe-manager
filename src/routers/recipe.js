@@ -17,9 +17,9 @@ router.post(`/recipes`, auth, async (req, res) => {
   }
 });
 
-router.get(`/recipes`, async (req, res) => {
+router.get(`/recipes`, auth, async (req, res) => {
   try {
-    const recipes = await Recipe.find({});
+    const recipes = await Recipe.find({ owner: req.user._id });
     res.send(recipes);
   } catch (e) {
     res.status(500).send();
