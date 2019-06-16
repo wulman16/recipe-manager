@@ -26,11 +26,11 @@ router.get(`/recipes`, async (req, res) => {
   }
 });
 
-router.get("/recipes/:id", async (req, res) => {
+router.get("/recipes/:id", auth, async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const recipe = await Recipe.findById(_id);
+    const recipe = await Recipe.findOne({ _id, owner: req.user._id });
     if (!recipe) return res.status(404).send();
     res.send(recipe);
   } catch (e) {
