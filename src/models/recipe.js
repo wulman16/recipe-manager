@@ -18,7 +18,8 @@ const Recipe = mongoose.model(`Recipe`, {
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: `User`
   }
 });
 
