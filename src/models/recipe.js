@@ -15,6 +15,10 @@ const Recipe = mongoose.model(`Recipe`, {
     type: String,
     required: true,
     trim: true
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   }
 });
 

@@ -1,9 +1,13 @@
 const express = require(`express`);
 const Recipe = require(`../models/recipe`);
+const auth = require(`../middleware/auth`);
 const router = new express.Router();
 
-router.post(`/recipes`, async (req, res) => {
-  const recipe = await new Recipe(req.body);
+router.post(`/recipes`, auth, async (req, res) => {
+  const recipe = new Recipe({
+    ...req.body,
+    owner: req.user._id
+  });
 
   try {
     await recipe.save();
