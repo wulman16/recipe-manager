@@ -55,7 +55,7 @@ router.get(`/users/me`, auth, async (req, res) => {
   res.send(req.user);
 });
 
-router.patch(`/users/:id`, async (req, res) => {
+router.patch(`/users/me`, auth, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = [`name`, `email`, `password`, `age`];
   const isValidOperation = updates.every(update => {
@@ -66,7 +66,7 @@ router.patch(`/users/:id`, async (req, res) => {
     return res.status(400).send({ error: `Invalid updates!` });
   }
 
-  const _id = req.params.id;
+  const _id = req.user._id;
 
   try {
     const user = await User.findById(_id);
