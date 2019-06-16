@@ -11,6 +11,11 @@ const recipeSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  ingredients: {
+    type: String,
+    required: true,
+    trim: true
+  },
   instructions: {
     type: String,
     required: true,
@@ -21,12 +26,6 @@ const recipeSchema = new mongoose.Schema({
     required: true,
     ref: `User`
   }
-});
-
-recipeSchema.virtual(`ingredients`, {
-  ref: `Ingredient`,
-  localField: `_id`,
-  foreignField: `recipe`
 });
 
 const Recipe = mongoose.model(`Recipe`, recipeSchema);
