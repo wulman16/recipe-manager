@@ -13,6 +13,11 @@ const Ingredient = mongoose.model(`Ingredient`, {
   isVegan: {
     type: Boolean,
     required: true
+  },
+  recipe: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: `Recipe`
   }
 });
 

@@ -1,6 +1,6 @@
 const mongoose = require(`mongoose`);
 
-const Recipe = mongoose.model(`Recipe`, {
+const recipeSchema = new mongoose.Schema(`Recipe`, {
   title: {
     type: String,
     required: true,
@@ -22,5 +22,13 @@ const Recipe = mongoose.model(`Recipe`, {
     ref: `User`
   }
 });
+
+recipeSchema.virtual(`ingredients`, {
+  ref: `Ingredient`,
+  localField: `_id`,
+  foreignField: `recipe`
+});
+
+const Recipe = mongoose.model(`Recipe`, recipeSchema);
 
 module.exports = Recipe;
