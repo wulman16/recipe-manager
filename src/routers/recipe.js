@@ -19,9 +19,15 @@ router.post(`/recipes`, auth, async (req, res) => {
 
 router.get(`/recipes`, auth, async (req, res) => {
   const match = {};
+  const sort = {};
 
   if (req.query.isVegan) {
     match.isVegan = req.query.isVegan === `true`;
+  }
+
+  if (req.query.sortBy) {
+    const args = req.query.sortBy.split(`_`);
+    sort[args[0]] = args[1] === `desc` ? -1 : 1;
   }
 
   try {
@@ -31,7 +37,8 @@ router.get(`/recipes`, auth, async (req, res) => {
         match,
         options: {
           limit: parseInt(req.query.limit),
-          skip: parseInt(req.query.skip)
+          skip: parseInt(req.query.skip),
+          sort
         }
       })
       .execPopulate();
