@@ -18,8 +18,16 @@ router.post(`/recipes`, auth, async (req, res) => {
 });
 
 router.get(`/recipes`, auth, async (req, res) => {
+  const match = {};
+
+  if (req.query.isVegan) {
+    match.isVegan = req.query.isVegan === `true`;
+  }
   try {
-    const recipes = await Recipe.find({ owner: req.user._id });
+    const recipes = await Recipe.find({
+      owner: req.user._id,
+      ...match
+    });
     res.send(recipes);
   } catch (e) {
     res.status(500).send();

@@ -22,6 +22,10 @@ const recipeSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
+    isVegan: {
+      type: Boolean,
+      required: true
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
