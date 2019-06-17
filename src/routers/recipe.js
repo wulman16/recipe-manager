@@ -23,12 +23,19 @@ router.get(`/recipes`, auth, async (req, res) => {
   if (req.query.isVegan) {
     match.isVegan = req.query.isVegan === `true`;
   }
+
   try {
-    const recipes = await Recipe.find({
-      owner: req.user._id,
-      ...match
-    });
-    res.send(recipes);
+    await req.user
+      .populate({
+        path: `recipes`,
+        match,
+        options: {
+          limit: parseInt(req.query.limit),
+          skip: parseInt(req.query.skip)
+        }
+      })
+      .execPopulate();
+    res.send(req.user.recipes);
   } catch (e) {
     res.status(500).send();
   }
