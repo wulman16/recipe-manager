@@ -2,6 +2,7 @@ const express = require(`express`);
 const User = require(`../models/user`);
 const auth = require(`../middleware/auth`);
 const router = new express.Router();
+const multer = require(`multer`);
 
 router.post(`/users`, async (req, res) => {
   const user = new User(req.body);
@@ -84,7 +85,6 @@ router.delete(`/users/me`, auth, async (req, res) => {
   }
 });
 
-const multer = require(`multer`);
 const upload = multer({
   dest: `avatars`,
   limits: {
@@ -100,6 +100,7 @@ const upload = multer({
 });
 router.post(
   `/users/me/avatar`,
+  auth,
   upload.single(`avatar`),
   (req, res) => {
     res.send();
