@@ -117,7 +117,7 @@ router.delete(`/users/me/avatar`, auth, async (req, res) => {
   try {
     req.user.avatar = undefined;
     await req.user.save();
-    res.send(req.user);
+    res.send();
   } catch (e) {
     res.status(500).send();
   }
