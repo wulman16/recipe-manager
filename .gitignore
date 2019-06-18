@@ -4,6 +4,7 @@
 
 # api keys	
 .env
+/config
 
 # dependencies
 /node_modules
