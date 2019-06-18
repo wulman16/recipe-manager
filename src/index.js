@@ -6,10 +6,6 @@ const recipeRouter = require(`./routers/recipe`);
 const app = express();
 const port = process.env.PORT || 3000;
 
-// app.use((req, res, next) => {
-//   res.status(503).send(`Site is under maintenance! Please come back later.`);
-// });
-
 app.use(express.json());
 app.use(userRouter);
 app.use(recipeRouter);
